@@ -78,7 +78,8 @@ class honkai3rd:
                     if data["retcode"] == 0:
                         today_Item = self.Get_today_item(data["data"]["list"])
                         tools.log.info(f"舰长{i[0]}签到成功~\r\n今天获得的奖励是{tools.Get_item(today_Item)}")
-                    elif (data["retcode"] == -5003):
+                    elif data["retcode"] == -5003:
+                        #崩坏3应为奖励列表和签到信息在一起了，加上上面已经可以进行了一次判断，所以这里旧不重复再次执行判断来获取内容了
                         tools.log.info(f"舰长{i[0]}今天已经签到过了~")
                     else:
                         tools.log.warn("账号签到失败！")
