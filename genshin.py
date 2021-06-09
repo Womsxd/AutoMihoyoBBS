@@ -1,5 +1,5 @@
 import time
-import httpx
+import requests
 import tools
 import config
 import random
@@ -29,7 +29,7 @@ class genshin:
     def Getacc_list(self) -> list:
         tools.log.info("正在获取米哈游账号绑定原神账号列表...")
         temp_List = []
-        req = httpx.get(setting.genshin_Account_info_url, headers=self.headers)
+        req = requests.get(setting.genshin_Account_info_url, headers=self.headers)
         data = req.json()
         if data["retcode"] != 0:
             tools.log.warn("获取账号列表失败！")
@@ -42,7 +42,7 @@ class genshin:
     #获取已经签到奖励列表
     def Get_singgive(self) -> list:
         tools.log.info("正在获取签到奖励列表...")
-        req = httpx.get(setting.genshin_Singlisturl.format(setting.genshin_Act_id),headers=self.headers)
+        req = requests.get(setting.genshin_Singlisturl.format(setting.genshin_Act_id),headers=self.headers)
         data = req.json()
         if data["retcode"] != 0:
             tools.log.warn("获取签到奖励列表失败")
@@ -52,7 +52,7 @@ class genshin:
 
     #判断签到
     def Is_sing(self, region:str, uid:str):
-        req = httpx.get(setting.genshin_Is_singurl.format(setting.genshin_Act_id, region, uid), headers=self.headers)
+        req = requests.get(setting.genshin_Is_singurl.format(setting.genshin_Act_id, region, uid), headers=self.headers)
         data = req.json()
         if data["retcode"] != 0:
             tools.log.warn("获取账号签到信息失败！")
@@ -75,7 +75,7 @@ class genshin:
                         tools.log.info(f"旅行者{i[0]}今天已经签到过了~\r\n今天获得的奖励是{tools.Get_item(self.sing_Give[sing_Days])}")
                     else:
                         time.sleep(random.randint(2, 6))
-                        req = httpx.post(url=setting.genshin_Singurl, headers=self.headers,
+                        req = requests.post(url=setting.genshin_Singurl, headers=self.headers,
                                 json={'act_id': setting.genshin_Act_id, 'region': i[2], 'uid': i[1]})
                         data = req.json()
                         if data["retcode"] == 0:

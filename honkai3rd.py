@@ -1,5 +1,5 @@
 import time
-import httpx
+import requests
 import tools
 import config
 import random
@@ -27,7 +27,7 @@ class honkai3rd:
     def Getacc_list(self) -> list:
         tools.log.info("正在获取米哈游账号绑定的崩坏3账号列表...")
         temp_List = []
-        req = httpx.get(setting.honkai3rd_Account_info_url, headers=self.headers)
+        req = requests.get(setting.honkai3rd_Account_info_url, headers=self.headers)
         data = req.json()
         if data["retcode"] != 0:
             tools.log.warn("获取账号列表失败！")
@@ -50,7 +50,7 @@ class honkai3rd:
 
     #判断签到
     def Is_sing(self, region:str, uid:str, nickname:str):
-        req = httpx.get(setting.honkai3rd_Is_singurl.format(setting.honkai3rd_Act_id, region, uid), headers=self.headers)
+        req = requests.get(setting.honkai3rd_Is_singurl.format(setting.honkai3rd_Act_id, region, uid), headers=self.headers)
         data = req.json()
         if data["retcode"] != 0:
             tools.log.warn("获取账号签到信息失败！")
@@ -72,7 +72,7 @@ class honkai3rd:
                 is_data = self.Is_sing(region = i[2], uid = i[1], nickname = i[0])
                 if is_data == True:
                     time.sleep(random.randint(2, 6))
-                    req = httpx.post(url=setting.honkai3rd_SingUrl, headers=self.headers,
+                    req = requests.post(url=setting.honkai3rd_SingUrl, headers=self.headers,
                         json={'act_id': setting.honkai3rd_Act_id, 'region': i[2], 'uid': i[1]})
                     data = req.json()
                     if data["retcode"] == 0:
