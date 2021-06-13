@@ -6,6 +6,7 @@ except ImportError:
     import requests
     http = requests
 
+
 #这里实际上应该加个"-> dict"但是考虑到请求可能失败的关系，所以直接不声明返回变量
 def get(url:str, **headers:dict):
     try:
