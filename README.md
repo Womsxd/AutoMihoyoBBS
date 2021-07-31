@@ -1,4 +1,6 @@
 # 米游社自动签到
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FWomsxd%2FAutoMihoyoBBS.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FWomsxd%2FAutoMihoyoBBS?ref=badge_shield)
+
 
 基于Python3的米游社自动签到项目
 
@@ -59,3 +61,6 @@
 ## License
 
 [MIT License](https://github.com/Womsxd/AutoMihoyoBBS/blob/master/LICENSE)
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FWomsxd%2FAutoMihoyoBBS.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FWomsxd%2FAutoMihoyoBBS?ref=badge_large)
