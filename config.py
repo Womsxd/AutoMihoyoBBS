@@ -97,13 +97,10 @@ def load_config_from_env():
         val = os.getenv(key)
         return json.loads(val) if val else origin
 
-    # mihoyobbs_Login_ticket = os.getenv("MIHOYOBBS_LOGIN_TICKET")
-    # mihoyobbs_Stuid = os.getenv("MIHOYOBBS_STUID")
-    # mihoyobbs_Stoken = os.getenv("MIHOYOBBS_STOKEN")
     credit = parse_dict("MIHOYOBBS_CREDIT")
-    mihoyobbs_Login_ticket = credit.get('login_ticket')
-    mihoyobbs_Stoken = credit.get('stoken')
-    mihoyobbs_Stuid = credit.get('stuid')
+    mihoyobbs_Login_ticket = credit.get('login_ticket', os.getenv('MIHOYOBBS_LOGIN_TICKET'))
+    mihoyobbs_Stoken = credit.get('stoken', os.getenv('MIHOYOBBS_STOKEN'))
+    mihoyobbs_Stuid = credit.get('stuid', os.getenv('MIHOYOBBS_STUID'))
     mihoyobbs_Cookies = os.getenv('MIHOYOBBS_COOKIES')
     mihoyobbs["bbs_Global"] = parse_bool('MIHOYOBBS_BBS_GLOBAL', mihoyobbs['bbs_Global'])
     mihoyobbs["bbs_Signin"] = parse_bool('MIHOYOBBS_BBS_SIGNIN', mihoyobbs['bbs_Signin'])
@@ -178,6 +175,8 @@ def clear_cookies_in_file():
 
 def clear_cookies_in_env():
     os.environ.pop('MIHOYOBBS_LOGIN_TICKET', None)
-    os.environ.pop('MIHOYOBBS_STUID', None); 
-    os.environ.pop('MIHOYOBBS_STOKEN', None);
+    os.environ.pop('MIHOYOBBS_STUID', None) 
+    os.environ.pop('MIHOYOBBS_STOKEN', None)
     os.environ.pop('MIHOYOBBS_COOKIES', None)
+    os.environ.pop('MIHOYOBBS_CREDIT', None)
+    output_secret("MIHOYOBBS_CREDIT", "")

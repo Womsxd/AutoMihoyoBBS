@@ -37,7 +37,16 @@ jobs:
       uses: hmanzur/actions-set-secret@v2.0.0
       with:
         name: 'MIHOYOBBS_CREDIT'
-        value: '${{ steps.checkin.outputs.MIHOYOBBS_CREDIT }}'
-        # repository: stkevintan/AutoMihoyoBBS
+        # value: '${{ job.status == "success" && steps.checkin.outputs.MIHOYOBBS_CREDIT || "" }}'
+        value: ${{ steps.checkin.outputs.MIHOYOBBS_CREDIT }}
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
+    - name: Clear credit
+      if: ${{ failure() }}
+      uses: hmanzur/actions-set-secret@v2.0.0
+      with:
+        name: 'MIHOYOBBS_CREDIT'
+        value: ''
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+    
       
