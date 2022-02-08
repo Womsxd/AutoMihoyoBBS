@@ -28,10 +28,16 @@ jobs:
       run: |
         python main.py
       env:
-        MIHOYOBBS_LOGIN_TICKET: ${{secrets.MIHOYOBBS_LOGIN_TICKET}}
-        MIHOYOBBS_STUID: ${{secrets.MIHOYOBBS_STUID}}
-        MIHOYOBBS_STOKEN: ${{secrets.MIHOYOBBS_STOKEN}}
+        # MIHOYOBBS_LOGIN_TICKET: ${{secrets.MIHOYOBBS_LOGIN_TICKET}}
+        # MIHOYOBBS_STUID: ${{secrets.MIHOYOBBS_STUID}}
+        # MIHOYOBBS_STOKEN: ${{secrets.MIHOYOBBS_STOKEN}}
+        MIHOYOBBS_CREDIT: ${{secrets.MIHOYOBBS_CREDIT}}
         MIHOYOBBS_COOKIES: ${{secrets.MIHOYOBBS_COOKIES}}
-    - name: Echo
-      run: |
-        echo "${{ steps.checkin.outputs.sec }}"
+    - name: Save credit
+      uses: hmanzur/actions-set-secret@v2.0.0
+      with:
+        name: 'MIHOYOBBS_CREDIT'
+        value: '${{ steps.checkin.outputs.MIHOYOBBS_CREDIT }}'
+        repository: hmanzur/actions-set-secret
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+      

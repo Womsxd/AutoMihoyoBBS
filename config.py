@@ -93,10 +93,19 @@ def load_config_from_env():
         val = os.getenv(key)
         return val.split(',') if val else origin
 
-    mihoyobbs_Login_ticket = os.getenv("MIHOYOBBS_LOGIN_TICKET")
-    mihoyobbs_Stuid = os.getenv("MIHOYOBBS_STUID")
-    mihoyobbs_Stoken = os.getenv("MIHOYOBBS_STOKEN")
-    mihoyobbs_Cookies = os.getenv('MIHOYOBBS_COOKIES');
+    def parse_dict(key: str, origin = {}):
+        val = os.getenv(key)
+        obj = json.load(val)
+        return obj if obj else origin
+
+    # mihoyobbs_Login_ticket = os.getenv("MIHOYOBBS_LOGIN_TICKET")
+    # mihoyobbs_Stuid = os.getenv("MIHOYOBBS_STUID")
+    # mihoyobbs_Stoken = os.getenv("MIHOYOBBS_STOKEN")
+    credit = parse_dict("MIHOYOBBS_CREDIT")
+    mihoyobbs_Login_ticket = credit.get('login_ticket')
+    mihoyobbs_Stoken = credit.get('stoken')
+    mihoyobbs_Stuid = credit.get('stoken')
+    mihoyobbs_Cookies = os.getenv('MIHOYOBBS_COOKIES')
     mihoyobbs["bbs_Global"] = parse_bool('MIHOYOBBS_BBS_GLOBAL', mihoyobbs['bbs_Global'])
     mihoyobbs["bbs_Signin"] = parse_bool('MIHOYOBBS_BBS_SIGNIN', mihoyobbs['bbs_Signin'])
     mihoyobbs["bbs_Signin_multi"] = parse_bool('MIHOYOBBS_BBS_SIGNIN_MULTI', mihoyobbs["bbs_Signin_multi"])
@@ -107,10 +116,6 @@ def load_config_from_env():
     mihoyobbs["bbs_Share"] = parse_bool('MIHOYO_BBS_SHARE', mihoyobbs["bbs_Share"])
     genshin_Auto_sign = parse_bool("GENSHIN_AUTO_SIGN", genshin_Auto_sign)
     honkai3rd_Auto_sign = parse_bool("HONKAI3RD_AUTO_SIGN", honkai3rd_Auto_sign)
-     # for github action
-    secret = "this is a test secret"
-    print("::add-mask::{}".format(secret))
-    print("::set-output name=sec::{}".format(secret))
    
     
 
@@ -134,10 +139,18 @@ def save_config_to_file():
         f.flush()
         f.close()
 
+def output_secret(key, val):
+    if os.getenv('GITHUB_ACTIONS') == 'true':
+        print("::add-mask::{}".format(val))
+        print("::set-output name={}::{}".format(key, val))
+
 def save_config_to_env():
     os.environ['MIHOYOBBS_LOGIN_TICKET'] = mihoyobbs_Login_ticket
     os.environ['MIHOYOBBS_STUID'] = mihoyobbs_Stuid
     os.environ['MIHOYOBBS_STOKEN'] = mihoyobbs_Stoken
+    # for github action only
+    output_secret("MIHOYOBBS_CREDIT", json.dumps({ "login_ticket": mihoyobbs_Login_ticket, "stuid": mihoyobbs_Stuid, "stoken": mihoyobbs_Stoken }, separators=(',', ':')))
+
    
 
 
