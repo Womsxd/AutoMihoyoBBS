@@ -38,6 +38,6 @@ jobs:
       with:
         name: 'MIHOYOBBS_CREDIT'
         value: '${{ steps.checkin.outputs.MIHOYOBBS_CREDIT }}'
-        repository: hmanzur/actions-set-secret
+        # repository: stkevintan/AutoMihoyoBBS
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
       
