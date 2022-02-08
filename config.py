@@ -163,7 +163,7 @@ def clear_cookies():
     
 def clear_cookies_in_file():
     with open(config_Path, "r+") as f:
-        data = json.load(f)
+        data = json.loads(f)
         data["enable_Config"] = False
         data["mihoyobbs_Login_ticket"] = ""
         data["mihoyobbs_Stuid"] = ""
