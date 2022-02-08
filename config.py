@@ -103,7 +103,7 @@ def load_config_from_env():
     credit = parse_dict("MIHOYOBBS_CREDIT")
     mihoyobbs_Login_ticket = credit.get('login_ticket')
     mihoyobbs_Stoken = credit.get('stoken')
-    mihoyobbs_Stuid = credit.get('stoken')
+    mihoyobbs_Stuid = credit.get('stuid')
     mihoyobbs_Cookies = os.getenv('MIHOYOBBS_COOKIES')
     mihoyobbs["bbs_Global"] = parse_bool('MIHOYOBBS_BBS_GLOBAL', mihoyobbs['bbs_Global'])
     mihoyobbs["bbs_Signin"] = parse_bool('MIHOYOBBS_BBS_SIGNIN', mihoyobbs['bbs_Signin'])
@@ -148,7 +148,8 @@ def save_config_to_env():
     os.environ['MIHOYOBBS_STUID'] = mihoyobbs_Stuid
     os.environ['MIHOYOBBS_STOKEN'] = mihoyobbs_Stoken
     # for github action only
-    output_secret("MIHOYOBBS_CREDIT", json.dumps({ "login_ticket": mihoyobbs_Login_ticket, "stuid": mihoyobbs_Stuid, "stoken": mihoyobbs_Stoken }, separators=(',', ':')))
+    credit = json.dumps({ "login_ticket": mihoyobbs_Login_ticket, "stuid": mihoyobbs_Stuid, "stoken": mihoyobbs_Stoken }, separators=(',', ':'))
+    output_secret("MIHOYOBBS_CREDIT", credit)
 
    
 
