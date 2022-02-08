@@ -95,8 +95,7 @@ def load_config_from_env():
 
     def parse_dict(key: str, origin = {}):
         val = os.getenv(key)
-        obj = json.load(val)
-        return obj if obj else origin
+        return json.loads(val) if val else origin
 
     # mihoyobbs_Login_ticket = os.getenv("MIHOYOBBS_LOGIN_TICKET")
     # mihoyobbs_Stuid = os.getenv("MIHOYOBBS_STUID")
@@ -163,7 +162,7 @@ def clear_cookies():
     
 def clear_cookies_in_file():
     with open(config_Path, "r+") as f:
-        data = json.loads(f)
+        data = json.load(f)
         data["enable_Config"] = False
         data["mihoyobbs_Login_ticket"] = ""
         data["mihoyobbs_Stuid"] = ""
