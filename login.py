@@ -6,7 +6,7 @@ from loghelper import log
 from error import CookieError
 
 
-def login(cookies = config.mihoyobbs_Cookies):
+def login(cookies: str):
     if cookies == '':
         log.error("请填入Cookies!")
         raise CookieError('No cookie')
