@@ -23,6 +23,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Run Main
+    - name: Check in
       run: |
         python main.py
+      env:
+        MIHOYOBBS_LOGIN_TICKET: ${{secrets.MIHOYOBBS_LOGIN_TICKET}}
+        MIHOYOBBS_STUID: ${{secrets.MIHOYOBBS_STUID}}
+        MIHOYOBBS_STOKEN: ${{secrets.MIHOYOBBS_STOKEN}}
+        MIHOYOBBS_COOKIES: ${{MIHOYOBBS_COOKIES}}
