@@ -20,7 +20,7 @@ def main():
         if not config.mihoyobbs_Login_ticket or not config.mihoyobbs_Stuid or not config.mihoyobbs_Stoken:
             # 登入，如果没开启bbs全局没打开就无需进行登入操作
             if config.mihoyobbs["bbs_Global"]:
-                login.login(config.mihoyobbs_Cookies)
+                login.login()
             time.sleep(random.randint(2, 8))
         # 获取要使用的BBS列表,#判断是否开启bbs_Signin_multi
         if config.mihoyobbs["bbs_Signin_multi"]:
