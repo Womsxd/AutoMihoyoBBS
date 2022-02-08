@@ -100,7 +100,7 @@ def load_config_from_env():
     credit = parse_dict("MIHOYOBBS_CREDIT")
     mihoyobbs_Login_ticket = credit.get('login_ticket', os.getenv('MIHOYOBBS_LOGIN_TICKET'))
     mihoyobbs_Stoken = credit.get('stoken', os.getenv('MIHOYOBBS_STOKEN'))
-    mihoyobbs_Stuid = credit.get('stuid', os.getenv('MIHOYOBBS_STUID'))
+    mihoyobbs_Stuid = credit.get('stuidx', os.getenv('MIHOYOBBS_STUID'))
     mihoyobbs_Cookies = os.getenv('MIHOYOBBS_COOKIES')
     mihoyobbs["bbs_Global"] = parse_bool('MIHOYOBBS_BBS_GLOBAL', mihoyobbs['bbs_Global'])
     mihoyobbs["bbs_Signin"] = parse_bool('MIHOYOBBS_BBS_SIGNIN', mihoyobbs['bbs_Signin'])
