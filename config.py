@@ -40,10 +40,10 @@ honkai3rd_Auto_sign = False
 path = os.path.dirname(os.path.realpath(__file__)) + "/config"
 config_Path = f"{path}/config.json"
 
-useFile = os.path.isfile(config_Path);
+use_file = os.path.isfile(config_Path);
 
 def load_config():
-    if useFile:
+    if use_file:
         load_config_from_file()
     else:
         load_config_from_env()
@@ -116,7 +116,7 @@ def load_config_from_env():
     
 
 def save_config():
-    if useFile:
+    if use_file:
         save_config_to_file()
     else:
         save_config_to_env()
@@ -135,10 +135,10 @@ def save_config_to_file():
         f.flush()
         f.close()
 
-def output_secret(key, val):
+def action_out(key, val, mask = True):
     if os.getenv('GITHUB_ACTIONS') == 'true':
         # cannot mask empty string
-        if val:
+        if val and mask:
             print("::add-mask::{}".format(val))
         print("::set-output name={}::{}".format(key, val))
 
@@ -148,13 +148,13 @@ def save_config_to_env():
     os.environ['MIHOYOBBS_STOKEN'] = mihoyobbs_Stoken
     # for github action only
     credit = json.dumps({ "login_ticket": mihoyobbs_Login_ticket, "stuid": mihoyobbs_Stuid, "stoken": mihoyobbs_Stoken }, separators=(',', ':'))
-    output_secret("MIHOYOBBS_CREDIT", credit)
+    action_out("MIHOYOBBS_CREDIT", credit)
 
    
 
 
 def clear_cookies():
-    if useFile:
+    if use_file:
         clear_cookies_in_file()
     else:
         clear_cookies_in_env()
@@ -181,4 +181,4 @@ def clear_cookies_in_env():
     os.environ.pop('MIHOYOBBS_STOKEN', None)
     os.environ.pop('MIHOYOBBS_COOKIES', None)
     os.environ.pop('MIHOYOBBS_CREDIT', None)
-    output_secret("MIHOYOBBS_CREDIT", "")
+    action_out("MIHOYOBBS_CREDIT", "")
