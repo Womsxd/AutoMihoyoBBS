@@ -35,7 +35,7 @@ mihoyobbs = {
 # 原神自动签到
 genshin_Auto_sign = True
 # 崩坏3自动签到
-honkai3rd_Auto_sign = True
+honkai3rd_Auto_sign = False
 
 path = os.path.dirname(os.path.realpath(__file__)) + "/config"
 config_Path = f"{path}/config.json"
@@ -86,20 +86,29 @@ def load_config_from_env():
     global mihoyobbs
     global genshin_Auto_sign
     global honkai3rd_Auto_sign
+    def parse_bool(key: str, origin = None):
+        val = os.getenv(key)
+        return val.strip().lower() == 'true' if val else origin 
+    def parse_array(key: str, origin = None):
+        val = os.getenv(key)
+        return val.split(',') if val else origin
+
     mihoyobbs_Login_ticket = os.getenv("MIHOYOBBS_LOGIN_TICKET")
     mihoyobbs_Stuid = os.getenv("MIHOYOBBS_STUID")
     mihoyobbs_Stoken = os.getenv("MIHOYOBBS_STOKEN")
     mihoyobbs_Cookies = os.getenv('MIHOYOBBS_COOKIES');
-    mihoyobbs["bbs_Global"] = os.getenv('MIHOYOBBS_BBS_GLOBAL')
-    mihoyobbs["bbs_Signin"] = os.getenv('MIHOYOBBS_BBS_SIGNIN')
-    mihoyobbs["bbs_Signin_multi"] = os.getenv('MIHOYOBBS_BBS_SIGNIN_MULTI')
-    mihoyobbs["bbs_Signin_multi_list"] = os.getenv('MIHOYOBBS_BBS_SIGNIN_MULTI_LIST')
-    mihoyobbs["bbs_Read_posts"] = os.getenv('MIHOYOBBS_BBS_READ_POSTS')
-    mihoyobbs["bbs_Like_posts"] = os.getenv('MIHOYOBBS_BBS_LIKE_POSTS')
-    mihoyobbs["bbs_Unlike"] = os.getenv('MIHOYO_BBS_UNLIKE')
-    mihoyobbs["bbs_Share"] = os.getenv('MIHOYO_BBS_SHARE')
-    genshin_Auto_sign = os.getenv("GENSHIN_AUTO_SIGN")
-    honkai3rd_Auto_sign = os.getenv("HONKAI3RD_AUTO_SIGN")
+    mihoyobbs["bbs_Global"] = parse_bool('MIHOYOBBS_BBS_GLOBAL', mihoyobbs['bbs_Global'])
+    mihoyobbs["bbs_Signin"] = parse_bool('MIHOYOBBS_BBS_SIGNIN', mihoyobbs['bbs_Signin'])
+    mihoyobbs["bbs_Signin_multi"] = parse_bool('MIHOYOBBS_BBS_SIGNIN_MULTI', mihoyobbs["bbs_Signin_multi"])
+    mihoyobbs["bbs_Signin_multi_list"] = parse_array('MIHOYOBBS_BBS_SIGNIN_MULTI_LIST', mihoyobbs["bbs_Signin_multi_list"])
+    mihoyobbs["bbs_Read_posts"] = parse_bool('MIHOYOBBS_BBS_READ_POSTS', mihoyobbs["bbs_Read_posts"])
+    mihoyobbs["bbs_Like_posts"] = parse_bool('MIHOYOBBS_BBS_LIKE_POSTS', mihoyobbs["bbs_Like_posts"])
+    mihoyobbs["bbs_Unlike"] = parse_bool('MIHOYO_BBS_UNLIKE', mihoyobbs["bbs_Unlike"])
+    mihoyobbs["bbs_Share"] = parse_bool('MIHOYO_BBS_SHARE', mihoyobbs["bbs_Share"])
+    genshin_Auto_sign = parse_bool("GENSHIN_AUTO_SIGN", genshin_Auto_sign)
+    honkai3rd_Auto_sign = parse_bool("HONKAI3RD_AUTO_SIGN", honkai3rd_Auto_sign)
+   
+    
 
 def save_config():
     if useFile:
