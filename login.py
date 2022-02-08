@@ -9,7 +9,6 @@ from error import CookieError
 def login(cookies = config.mihoyobbs_Cookies):
     if cookies == '':
         log.error("请填入Cookies!")
-        # config.clear_cookies()
         raise CookieError('No cookie')
     # 判断Cookie里面是否有login_ticket 没有的话直接退了
     if "login_ticket" in cookies:
@@ -29,11 +28,9 @@ def login(cookies = config.mihoyobbs_Cookies):
             config.save_config()
         else:
             log.error("cookie已失效,请重新登录米游社抓取cookie")
-            config.clear_cookies()
             raise CookieError('Cookie expires')
     else:
         log.error("cookie中没有'login_ticket'字段,请重新登录米游社，重新抓取cookie!")
-        config.clear_cookies()
         raise CookieError('Cookie lost login_ticket')
 
 if __name__ == '__main__':

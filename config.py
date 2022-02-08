@@ -97,6 +97,7 @@ def load_config_from_env():
     mihoyobbs_Stuid = os.getenv("MIHOYOBBS_STUID")
     mihoyobbs_Stoken = os.getenv("MIHOYOBBS_STOKEN")
     mihoyobbs_Cookies = os.getenv('MIHOYOBBS_COOKIES');
+    print("mihoyobbs", mihoyobbs)
     mihoyobbs["bbs_Global"] = parse_bool('MIHOYOBBS_BBS_GLOBAL', mihoyobbs['bbs_Global'])
     mihoyobbs["bbs_Signin"] = parse_bool('MIHOYOBBS_BBS_SIGNIN', mihoyobbs['bbs_Signin'])
     mihoyobbs["bbs_Signin_multi"] = parse_bool('MIHOYOBBS_BBS_SIGNIN_MULTI', mihoyobbs["bbs_Signin_multi"])
@@ -105,6 +106,7 @@ def load_config_from_env():
     mihoyobbs["bbs_Like_posts"] = parse_bool('MIHOYOBBS_BBS_LIKE_POSTS', mihoyobbs["bbs_Like_posts"])
     mihoyobbs["bbs_Unlike"] = parse_bool('MIHOYO_BBS_UNLIKE', mihoyobbs["bbs_Unlike"])
     mihoyobbs["bbs_Share"] = parse_bool('MIHOYO_BBS_SHARE', mihoyobbs["bbs_Share"])
+    print('after', mihoyobbs)
     genshin_Auto_sign = parse_bool("GENSHIN_AUTO_SIGN", genshin_Auto_sign)
     honkai3rd_Auto_sign = parse_bool("HONKAI3RD_AUTO_SIGN", honkai3rd_Auto_sign)
    

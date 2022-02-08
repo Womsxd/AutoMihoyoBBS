@@ -17,7 +17,7 @@ def main():
     config.load_config()
     if config.enable_Config:
         # 检测参数是否齐全，如果缺少就进行登入操作
-        if config.mihoyobbs_Login_ticket == "" or config.mihoyobbs_Stuid == "" or config.mihoyobbs_Stoken == "":
+        if not config.mihoyobbs_Login_ticket or not config.mihoyobbs_Stuid or not config.mihoyobbs_Stoken:
             # 登入，如果没开启bbs全局没打开就无需进行登入操作
             if config.mihoyobbs["bbs_Global"]:
                 login.login()
