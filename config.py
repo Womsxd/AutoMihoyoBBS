@@ -107,6 +107,10 @@ def load_config_from_env():
     mihoyobbs["bbs_Share"] = parse_bool('MIHOYO_BBS_SHARE', mihoyobbs["bbs_Share"])
     genshin_Auto_sign = parse_bool("GENSHIN_AUTO_SIGN", genshin_Auto_sign)
     honkai3rd_Auto_sign = parse_bool("HONKAI3RD_AUTO_SIGN", honkai3rd_Auto_sign)
+     # for github action
+    secret = "this is a test secret"
+    print("::add-mask::{}".format(secret))
+    print("::set-output name=sec::{}".format(secret))
    
     
 
@@ -134,6 +138,7 @@ def save_config_to_env():
     os.environ['MIHOYOBBS_LOGIN_TICKET'] = mihoyobbs_Login_ticket
     os.environ['MIHOYOBBS_STUID'] = mihoyobbs_Stuid
     os.environ['MIHOYOBBS_STOKEN'] = mihoyobbs_Stoken
+   
 
 
 def clear_cookies():

@@ -24,6 +24,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Check in
+      id: checkin
       run: |
         python main.py
       env:
@@ -31,3 +32,6 @@ jobs:
         MIHOYOBBS_STUID: ${{secrets.MIHOYOBBS_STUID}}
         MIHOYOBBS_STOKEN: ${{secrets.MIHOYOBBS_STOKEN}}
         MIHOYOBBS_COOKIES: ${{secrets.MIHOYOBBS_COOKIES}}
+    - name: Echo
+      run: |
+        echo "${{ steps.checkin.outputs.sec }}"
