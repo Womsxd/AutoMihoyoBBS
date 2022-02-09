@@ -31,13 +31,13 @@ jobs:
         MIHOYOBBS_CREDENTIAL: ${{secrets.MIHOYOBBS_CREDENTIAL}}
         MIHOYOBBS_COOKIES: ${{secrets.MIHOYOBBS_COOKIES}}
         # MIHOYOBBS_BBS_GLOBAL: true
-    - name: Save credit
+    - name: Save credential
       uses: hmanzur/actions-set-secret@v2.0.0
       with:
         name: 'MIHOYOBBS_CREDENTIAL'
         value: ${{ steps.checkin.outputs.MIHOYOBBS_CREDENTIAL }}
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
-    - name: Clear credit
+    - name: Clear credential
       if: ${{ failure() }}
       uses: hmanzur/actions-set-secret@v2.0.0
       with:
