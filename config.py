@@ -97,10 +97,10 @@ def load_config_from_env():
         val = os.getenv(key)
         return json.loads(val) if val else origin
 
-    credit = parse_dict("MIHOYOBBS_CREDIT")
-    mihoyobbs_Login_ticket = credit.get('login_ticket', os.getenv('MIHOYOBBS_LOGIN_TICKET'))
-    mihoyobbs_Stoken = credit.get('stoken', os.getenv('MIHOYOBBS_STOKEN'))
-    mihoyobbs_Stuid = credit.get('stuid', os.getenv('MIHOYOBBS_STUID'))
+    credential = parse_dict("MIHOYOBBS_CREDENTIAL")
+    mihoyobbs_Login_ticket = credential.get('login_ticket', os.getenv('MIHOYOBBS_LOGIN_TICKET'))
+    mihoyobbs_Stoken = credential.get('stoken', os.getenv('MIHOYOBBS_STOKEN'))
+    mihoyobbs_Stuid = credential.get('stuid', os.getenv('MIHOYOBBS_STUID'))
     mihoyobbs_Cookies = os.getenv('MIHOYOBBS_COOKIES')
     mihoyobbs["bbs_Global"] = parse_bool('MIHOYOBBS_BBS_GLOBAL', mihoyobbs['bbs_Global'])
     mihoyobbs["bbs_Signin"] = parse_bool('MIHOYOBBS_BBS_SIGNIN', mihoyobbs['bbs_Signin'])
@@ -147,8 +147,8 @@ def save_config_to_env():
     os.environ['MIHOYOBBS_STUID'] = mihoyobbs_Stuid
     os.environ['MIHOYOBBS_STOKEN'] = mihoyobbs_Stoken
     # for github action only
-    credit = json.dumps({ "login_ticket": mihoyobbs_Login_ticket, "stuid": mihoyobbs_Stuid, "stoken": mihoyobbs_Stoken }, separators=(',', ':'))
-    action_out("MIHOYOBBS_CREDIT", credit)
+    credential = json.dumps({ "login_ticket": mihoyobbs_Login_ticket, "stuid": mihoyobbs_Stuid, "stoken": mihoyobbs_Stoken }, separators=(',', ':'))
+    action_out("MIHOYOBBS_CREDENTIAL", credential)
 
    
 
@@ -180,5 +180,5 @@ def clear_cookies_in_env():
     os.environ.pop('MIHOYOBBS_STUID', None) 
     os.environ.pop('MIHOYOBBS_STOKEN', None)
     os.environ.pop('MIHOYOBBS_COOKIES', None)
-    os.environ.pop('MIHOYOBBS_CREDIT', None)
-    action_out("MIHOYOBBS_CREDIT", "")
+    os.environ.pop('MIHOYOBBS_CREDENTIAL', None)
+    action_out("MIHOYOBBS_CREDENTIAL", "")

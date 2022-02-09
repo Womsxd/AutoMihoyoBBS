@@ -28,20 +28,20 @@ jobs:
       run: |
         python main.py
       env:
-        MIHOYOBBS_CREDIT: ${{secrets.MIHOYOBBS_CREDIT}}
+        MIHOYOBBS_CREDENTIAL: ${{secrets.MIHOYOBBS_CREDENTIAL}}
         MIHOYOBBS_COOKIES: ${{secrets.MIHOYOBBS_COOKIES}}
         # MIHOYOBBS_BBS_GLOBAL: true
     - name: Save credit
       uses: hmanzur/actions-set-secret@v2.0.0
       with:
-        name: 'MIHOYOBBS_CREDIT'
-        value: ${{ steps.checkin.outputs.MIHOYOBBS_CREDIT }}
+        name: 'MIHOYOBBS_CREDENTIAL'
+        value: ${{ steps.checkin.outputs.MIHOYOBBS_CREDENTIAL }}
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
     - name: Clear credit
       if: ${{ failure() }}
       uses: hmanzur/actions-set-secret@v2.0.0
       with:
-        name: 'MIHOYOBBS_CREDIT'
+        name: 'MIHOYOBBS_CREDENTIAL'
         value: ''
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
 
