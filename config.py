@@ -89,6 +89,7 @@ def load_config_from_env():
     def parse_bool(key: str, origin = None):
         val = os.getenv(key)
         return val.strip().lower() == 'true' if val else origin 
+        
     def parse_array(key: str, origin = None):
         val = os.getenv(key)
         return val.split(',') if val else origin
@@ -148,6 +149,7 @@ def save_config_to_env():
     os.environ['MIHOYOBBS_STOKEN'] = mihoyobbs_Stoken
     # for github action only
     credential = json.dumps({ "login_ticket": mihoyobbs_Login_ticket, "stuid": mihoyobbs_Stuid, "stoken": mihoyobbs_Stoken }, separators=(',', ':'))
+    os.environ['MIHOYOBBS_CREDENTIAL'] = credential
     action_out("MIHOYOBBS_CREDENTIAL", credential)
 
    
