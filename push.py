@@ -1,4 +1,4 @@
-import os
+import os,requests,json
 from request import http
 from loghelper import log
 from configparser import ConfigParser
@@ -17,9 +17,9 @@ def load_config():
 
 def title(status):
     if status == 0:
-        return "「米游社脚本」执行成功!"
+        return "米游社脚本执行成功!"
     else:
-        return "「米游社脚本」执行失败!"
+        return "米游社脚本执行失败!"
 
 
 def telegram(status, push_message):
@@ -61,6 +61,22 @@ def cq_http(status, push_message):
             "message": title(status) + "\r\n" + push_message
         }
     )
+    
+def weixin_push(status, push_message):
+    agentid=cfg.get('qywx', 'agentid'),
+    wxid=cfg.get('qywx', 'wxid'),
+    wxsecret=cfg.get('qywx', 'wxsecret'),
+    wx_push_token = requests.post(url='https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s'%(wxid[0],wxsecret[0]),data="").json()['access_token']
+    wx_push_data = {
+            "agentid":agentid[0],
+            "msgtype":"text",
+            "touser":"@all",
+            "text":{
+                    "content":title(status) + "\r\n" + push_message
+            },
+            "safe":0
+        }
+    requests.post('https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s'%wx_push_token,json=wx_push_data)
 
 
 def push(status, push_message):
@@ -78,5 +94,7 @@ def push(status, push_message):
             pushplus(status, push_message)
         elif push_server == "telegram":
             telegram(status, push_message)
+        elif push_server == "qywx":
+            weixin_push(status, push_message)
         log.info("推送完毕......")
     return 0

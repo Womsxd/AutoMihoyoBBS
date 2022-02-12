@@ -15,3 +15,8 @@ cqhttp_qq=10001
 api_url=api.telegram.org
 bot_token=123465:abcdefg
 chat_id=123456
+
+[qywx]
+agentid=
+wxid=
+wxsecret=

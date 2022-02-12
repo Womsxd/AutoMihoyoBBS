@@ -23,6 +23,7 @@ def main_multi(autorun: bool):
     log.info("AutoMihoyoBBS Multi User mode")
     log.info("正在搜索配置文件！")
     config_list = fund_config()
+    detail_msg = ""
     if len(config_list) == 0:
         log.warning("未检测到配置文件，请确认config文件夹存在.json后缀名的配置文件！")
         exit(1)
@@ -46,15 +47,16 @@ def main_multi(autorun: bool):
         else:
             if run_code == 0:
                 results["ok"].append(i)
+                detail_msg += "\r\n"+run_message
             else:
                 results["close"].append(i)
         log.info(f"{i}执行完毕")
         time.sleep(random.randint(3, 10))
     print("")
-    push_message = f'脚本执行完毕，共执行{len(config_list)}个配置文件，成功{len(results["ok"])}个，没执行{len(results["close"])}个，失败{len(results["error"])}个'\
+    push_message = f'脚本执行完毕\r\n共执行{len(config_list)}个配置文件\r\n成功{len(results["ok"])}个,没执行{len(results["close"])}个,失败{len(results["error"])}个'\
                    f'\r\n没执行的配置文件: {results["close"]}\r\n执行失败的配置文件: {results["error"]}'
     log.info(push_message)
-    push.push(0, push_message)
+    push.push(0, push_message+"\r\n"+detail_msg)
 
 
 if __name__ == "__main__":
