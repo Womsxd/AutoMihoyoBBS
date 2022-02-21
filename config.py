@@ -47,7 +47,7 @@ def load_config():
         load_config_from_file()
     else:
         load_config_from_env()
-    log.info("Config加载完毕")
+    log.info("Config loaded from {}".format("file" if use_file else "environment"))
 
 def load_config_from_file():
     with open(config_Path, "r") as f:
@@ -121,7 +121,7 @@ def save_config():
         save_config_to_file()
     else:
         save_config_to_env()
-    log.info("Config保存完毕")
+    log.info("Config saved")
 
 def save_config_to_file():
     with open(config_Path, "r+") as f:
