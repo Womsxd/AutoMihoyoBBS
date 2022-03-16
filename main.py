@@ -91,5 +91,5 @@ if __name__ == "__main__":
         status_code = 1
         message = "账号Cookie出错！"
         log.error("账号Cookie有问题！")
-    push.push(status_code, message)
+    push.send("米游社", message)
 pass
