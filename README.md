@@ -131,7 +131,7 @@ docker restart mihoyo-bbs && docker logs -f mihoyo-bbs
 1. 拉取仓库
 
 ```shell
-ql repo https://github.com/yuxian158/AutoMihoyoBBS.git "main.py" "" "error|mihoyo|genshin|honkai3rd|log|push|req|set|tools|con"
+ql repo https://github.com/Womsxd/AutoMihoyoBBS "main.py" "" "error|mihoyo|genshin|honkai3rd|log|push|req|set|tools|con"
 ```
 
 2.复制配置文件
