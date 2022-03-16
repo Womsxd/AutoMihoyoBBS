@@ -16,6 +16,7 @@ from error import CookieError
 
 def main():
     # 初始化，加载配置
+    return_data = "米游社："
     config.load_config()
     if config.enable_Config:
         # 检测参数是否齐全，如果缺少就进行登入操作
@@ -90,5 +91,5 @@ if __name__ == "__main__":
         status_code = 1
         message = "账号Cookie出错！"
         log.error("账号Cookie有问题！")
-    push.send("米游社", message)
+    push.send("", message)
 pass
