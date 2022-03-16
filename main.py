@@ -16,7 +16,6 @@ from error import CookieError
 
 def main():
     # 初始化，加载配置
-    return_data = "\n米游社："
     config.load_config()
     if config.enable_Config:
         # 检测参数是否齐全，如果缺少就进行登入操作
