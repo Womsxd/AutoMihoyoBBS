@@ -38,7 +38,11 @@ genshin_Auto_sign = True
 honkai3rd_Auto_sign = True
 
 path = os.path.dirname(os.path.realpath(__file__)) + "/config"
-config_Path = f"{path}/config.json"
+if os.path.isfile(f"{path}/config.json"):
+    config_Path = f"{path}/config.json"
+else:
+    log.info("启用了青龙配置文件")
+    config_Path = "/ql/config/mihoyo.json"
 
 
 def load_config():

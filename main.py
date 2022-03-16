@@ -1,3 +1,6 @@
+"""
+new Env('米游社');
+"""
 import time
 import push
 import login

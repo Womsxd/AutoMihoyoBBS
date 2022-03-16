@@ -126,6 +126,20 @@ docker restart mihoyo-bbs && docker logs -f mihoyo-bbs
 
 8. 完成，enjoy it！
 
+## 使用青龙面板运行
+
+1. 拉取仓库
+
+```shell
+ql repo https://github.com/yuxian158/AutoMihoyoBBS.git "main.py" "" "error|mihoyo|genshin|honkai3rd|log|push|req|set|tools|con"
+```
+
+2.复制配置文件
+
+```shell
+cp /ql/repo/Womsxd_AutoMihoyoBBS/config/config.json.example /ql/config/mihoyo.json
+```
+
 ## 使用的第三方库
 
 requests: [github](https://github.com/psf/requests) [pypi](https://pypi.org/project/requests/)
