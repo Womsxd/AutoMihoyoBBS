@@ -35,13 +35,21 @@ mihoyobbs = {
 # 原神自动签到
 genshin_Auto_sign = True
 # 崩坏3自动签到
-honkai3rd_Auto_sign = True
+honkai3rd_Auto_sign = False
 
 path = os.path.dirname(os.path.realpath(__file__)) + "/config"
 config_Path = f"{path}/config.json"
 
+use_file = os.path.isfile(config_Path);
 
 def load_config():
+    if use_file:
+        load_config_from_file()
+    else:
+        load_config_from_env()
+    log.info("Config loaded from {}".format("file" if use_file else "environment"))
+
+def load_config_from_file():
     with open(config_Path, "r") as f:
         data = json.load(f)
         global enable_Config
@@ -61,10 +69,54 @@ def load_config():
         genshin_Auto_sign = data["genshin_Auto_sign"]
         honkai3rd_Auto_sign = data["honkai3rd_Auto_sign"]
         f.close()
-        log.info("Config加载完毕")
+       
+def load_config_from_env():
+    global enable_Config
+    global mihoyobbs_Login_ticket
+    global mihoyobbs_Stuid
+    global mihoyobbs_Stoken
+    global mihoyobbs_Cookies
+    global mihoyobbs
+    global genshin_Auto_sign
+    global honkai3rd_Auto_sign
+    def parse_bool(key: str, origin = None):
+        val = os.getenv(key)
+        return val.strip().lower() == 'true' if val else origin 
+        
+    def parse_array(key: str, origin = None):
+        val = os.getenv(key)
+        return val.split(',') if val else origin
 
+    def parse_dict(key: str, origin = {}):
+        val = os.getenv(key)
+        return json.loads(val) if val else origin
+
+    credential = parse_dict("MIHOYOBBS_CREDENTIAL")
+    mihoyobbs_Login_ticket = credential.get('login_ticket', os.getenv('MIHOYOBBS_LOGIN_TICKET'))
+    mihoyobbs_Stoken = credential.get('stoken', os.getenv('MIHOYOBBS_STOKEN'))
+    mihoyobbs_Stuid = credential.get('stuid', os.getenv('MIHOYOBBS_STUID'))
+    mihoyobbs_Cookies = os.getenv('MIHOYOBBS_COOKIES')
+    mihoyobbs["bbs_Global"] = parse_bool('MIHOYOBBS_BBS_GLOBAL', mihoyobbs['bbs_Global'])
+    mihoyobbs["bbs_Signin"] = parse_bool('MIHOYOBBS_BBS_SIGNIN', mihoyobbs['bbs_Signin'])
+    mihoyobbs["bbs_Signin_multi"] = parse_bool('MIHOYOBBS_BBS_SIGNIN_MULTI', mihoyobbs["bbs_Signin_multi"])
+    mihoyobbs["bbs_Signin_multi_list"] = parse_array('MIHOYOBBS_BBS_SIGNIN_MULTI_LIST', mihoyobbs["bbs_Signin_multi_list"])
+    mihoyobbs["bbs_Read_posts"] = parse_bool('MIHOYOBBS_BBS_READ_POSTS', mihoyobbs["bbs_Read_posts"])
+    mihoyobbs["bbs_Like_posts"] = parse_bool('MIHOYOBBS_BBS_LIKE_POSTS', mihoyobbs["bbs_Like_posts"])
+    mihoyobbs["bbs_Unlike"] = parse_bool('MIHOYO_BBS_UNLIKE', mihoyobbs["bbs_Unlike"])
+    mihoyobbs["bbs_Share"] = parse_bool('MIHOYO_BBS_SHARE', mihoyobbs["bbs_Share"])
+    genshin_Auto_sign = parse_bool("GENSHIN_AUTO_SIGN", genshin_Auto_sign)
+    honkai3rd_Auto_sign = parse_bool("HONKAI3RD_AUTO_SIGN", honkai3rd_Auto_sign)
+   
+    
 
 def save_config():
+    if use_file:
+        save_config_to_file()
+    else:
+        save_config_to_env()
+    log.info("Config saved")
+
+def save_config_to_file():
     with open(config_Path, "r+") as f:
         data = json.load(f)
         data["mihoyobbs_Login_ticket"] = mihoyobbs_Login_ticket
@@ -76,10 +128,34 @@ def save_config():
         f.write(temp_text)
         f.flush()
         f.close()
-        log.info("Config保存完毕")
+
+def action_out(key, val, mask = True):
+    if os.getenv('GITHUB_ACTIONS') == 'true':
+        # cannot mask empty string
+        if val and mask:
+            print("::add-mask::{}".format(val))
+        print("::set-output name={}::{}".format(key, val))
+
+def save_config_to_env():
+    os.environ['MIHOYOBBS_LOGIN_TICKET'] = mihoyobbs_Login_ticket
+    os.environ['MIHOYOBBS_STUID'] = mihoyobbs_Stuid
+    os.environ['MIHOYOBBS_STOKEN'] = mihoyobbs_Stoken
+    # for github action only
+    credential = json.dumps({ "login_ticket": mihoyobbs_Login_ticket, "stuid": mihoyobbs_Stuid, "stoken": mihoyobbs_Stoken }, separators=(',', ':'))
+    os.environ['MIHOYOBBS_CREDENTIAL'] = credential
+    action_out("MIHOYOBBS_CREDENTIAL", credential)
+
+   
 
 
 def clear_cookies():
+    if use_file:
+        clear_cookies_in_file()
+    else:
+        clear_cookies_in_env()
+    log.info("Cookie删除完毕")
+    
+def clear_cookies_in_file():
     with open(config_Path, "r+") as f:
         data = json.load(f)
         data["enable_Config"] = False
@@ -93,4 +169,11 @@ def clear_cookies():
         f.write(temp_text)
         f.flush()
         f.close()
-        log.info("Cookie删除完毕")
+
+def clear_cookies_in_env():
+    os.environ.pop('MIHOYOBBS_LOGIN_TICKET', None)
+    os.environ.pop('MIHOYOBBS_STUID', None) 
+    os.environ.pop('MIHOYOBBS_STOKEN', None)
+    os.environ.pop('MIHOYOBBS_COOKIES', None)
+    os.environ.pop('MIHOYOBBS_CREDENTIAL', None)
+    action_out("MIHOYOBBS_CREDENTIAL", "")

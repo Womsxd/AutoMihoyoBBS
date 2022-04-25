@@ -1,0 +1,43 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: 自动签到
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 22 * * *"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Check in
+      id: checkin
+      run: |
+        python main.py
+      env:
+        MIHOYOBBS_CREDENTIAL: ${{secrets.MIHOYOBBS_CREDENTIAL}}
+        MIHOYOBBS_COOKIES: ${{secrets.MIHOYOBBS_COOKIES}}
+        # MIHOYOBBS_BBS_GLOBAL: true
+    - name: Save credential
+      uses: hmanzur/actions-set-secret@v2.0.0
+      if: ${{ failure() || steps.checkin.outputs.MIHOYOBBS_CREDENTIAL }}
+      with:
+        name: 'MIHOYOBBS_CREDENTIAL'
+        value: ${{ steps.checkin.outputs.MIHOYOBBS_CREDENTIAL }}
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+    
+      
