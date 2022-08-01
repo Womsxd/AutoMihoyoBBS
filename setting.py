@@ -94,9 +94,10 @@ honkai2_Is_signurl = web_Api + "/event/luna/info?lang=zh-cn&act_id={}&region={}&
 honkai2_Sign_url = web_Api + "/event/luna/sign"
 
 # 崩坏3自动签到相关的设置
-honkai3rd_Act_id = "ea20211026151532"
-honkai3rd_Is_signurl = web_Api + "/common/eutheniav2/index?act_id={}&region={}&uid={}"
-honkai3rd_SignUrl = web_Api + "/common/eutheniav2/sign"
+honkai3rd_Act_id = "e202207181446311"
+honkai3rd_checkin_rewards = f'{web_Api}/event/luna/home?lang=zh-cn&act_id={honkai3rd_Act_id}'
+honkai3rd_Is_signurl = honkai2_Is_signurl 
+honkai3rd_Sign_url = honkai2_Sign_url   # 也是和二崩完全一致，折磨我半天
 
 # 未定事件簿自动签到相关设置
 tearsofthemis_Act_id = "e202202251749321"
